@@ -11,7 +11,7 @@ services:
   web:
     build: .
     ports:
-      - "8000:8000"
+      - "1532:1532"
     environment:
       DATABASE_URL: postgresql://admin:admin@db:5432/pokemon_db
     depends_on:
