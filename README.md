@@ -42,6 +42,16 @@ docker compose up --build
 ### 1. Dokumentasi Swagger UI
 Setelah semua container berjalan (status: `Running`), buka browser dan access: http://localhost:8000/docs.
 
+Apabila mendapatkan seperti di bawah ini:
+```bash
+web-1  | sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to server at "db" ({host}), port 5432 failed: Connection refused
+web-1  |        Is the server running on that host and accepting TCP/IP connections?
+```
+dan URL docs swagger tidak dapat diakses, anda bisa membuka terminal baru dan eksekusi hal berikut agar bisa berjalan normal:
+```bash
+docker compose restart web
+```
+
 ### 2. Mengirim request
 * Pilih endpoint `POST /process-ability`
 * Klik tombol `Try it out`
