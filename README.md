@@ -69,7 +69,7 @@ docker compose restart web
 ### 3. Verifikasi data
 Gunakan database client untuk memvalidasi data yang sudah masuk ke database dengan menggunakan credential default (dapat diubah di file docker-compose.yml)
 * **Host:** `localhost`
-* **Port:** `1532`
+* **Port:** `5432`
 * **username:** `admin`
 * **password:** `admin`
 
