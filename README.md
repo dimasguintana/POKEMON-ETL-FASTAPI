@@ -1,6 +1,6 @@
 # 🚀 Pokemon Ability ETL API (FastAPI & PostgreSQL)
 
-Proyek ini adalah sebuah API berbasis **FastAPI** yang mengimplementasikan alur ETL (Extract, Transform, Load). API menerima ID Ability Pokemon, mengambil data dari PokeAPI secara asynchronous, melakukan transformasi data, dan menyimpannya ke database **PostgreSQL**.
+This project is a **FastAPI**-based application that implements a robust ETL (Extract, Transform, Load) pipeline. The API consumes Pokemon Ability IDs, fetches data asynchronously from the PokeAPI, performs data transformation (filtering and normalization), and persists the results into a **PostgreSQL** database.
 
 ---
 
@@ -9,26 +9,26 @@ Proyek ini adalah sebuah API berbasis **FastAPI** yang mengimplementasikan alur 
 * **Database:** PostgreSQL 15
 * **ORM:** SQLAlchemy
 * **Containerization:** Docker & Docker Compose
-* **Client:** HTTPX (Async API Calls)
+* **HTTP Client:** HTTPX (Asynchronous API Calls)
 
 ---
 
-## 📋 Prasyarat
-Sebelum menjalankan, pastikan Anda telah menginstal:
-* **Docker Desktop** (untuk Windows dan macOS)
-* **Docker Engine & Docker Compose** (untuk Linux/Ubuntu)
+## 📋 Prerequisites
+Ensure you have the following installed on your system:
+* **Docker Desktop** (for Windows and macOS)
+* **Docker Engine & Docker Compose** (for Linux/Ubuntu)
 
 ---
 
-## 🚀 Cara Menjalankan Project
+## 🚀 Getting Started
 
-### 1. Clone github repository
+### 1. Clone the Repository
 ```bash
-git clone [https://github.com/dimasguintana/POKEMON-ETL-FASTAPI](https://github.com/dimasguintana/POKEMON-ETL-FASTAPI.git)
+git clone [https://github.com/dimasguintana/POKEMON-ETL-FASTAPI.git](https://github.com/dimasguintana/POKEMON-ETL-FASTAPI.git)
 cd POKEMON-ETL-FASTAPI
 ```
 
-### 2. Jalankan dengan Docker Compose
+### 2. Run with Docker Compose
 * **Mac / Linux**
 ```bash
 sudo docker compose up --build
@@ -38,24 +38,24 @@ sudo docker compose up --build
 docker compose up --build
 ```
 
-## Cara Testing
-### 1. Dokumentasi Swagger UI
-Setelah semua container berjalan (status: `Running`), buka browser dan access: http://localhost:8000/docs.
+## Testing & Verification
+### 1. API Documentation (Swagger UI)
+Once all containers are up and running, access the interactive documentation at:
+👉 http://localhost:8000/docs
 
-Apabila mendapatkan seperti di bawah ini:
-```bash
-web-1  | sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to server at "db" ({host}), port 5432 failed: Connection refused
-web-1  |        Is the server running on that host and accepting TCP/IP connections?
-```
-dan URL docs swagger tidak dapat diakses, anda bisa membuka terminal baru dan eksekusi hal berikut agar bisa berjalan normal:
+Troubleshooting: Connection Refused
+If you encounter a sqlalchemy.exc.OperationalError (Connection refused) during the first startup, it means the web service attempted to connect before the database was fully initialized. To resolve this, simply restart the web container:
+
 ```bash
 docker compose restart web
 ```
 
-### 2. Mengirim request
-* Pilih endpoint `POST /process-ability`
-* Klik tombol `Try it out`
-* Isi value untuk masing-masing kolom seperti berikut:
+### 2. Executing the ETL Process
+* Locate the POST /process-ability endpoint.
+
+* Click "Try it out".
+
+* Use the following JSON payload as an example:
 ```bash
 {
     "raw_id": "7dsa8d7sa9dsa",
@@ -63,17 +63,16 @@ docker compose restart web
     "pokemon_ability_id": 150
 }
 ```
-* Klik execute
-* Jika berhasil, server response akan memberikan code `200` beserta dengan response body.
+* Click Execute. A successful process will return a 200 OK status code with the processed data in the response body.
 
-### 3. Verifikasi data
-Gunakan database client untuk memvalidasi data yang sudah masuk ke database dengan menggunakan credential default (dapat diubah di file docker-compose.yml)
+### 3. Database verification
+You can verify the persisted data using any database client (e.g., DBeaver, TablePlus, or pgAdmin) with the following default credentials (can be change in docker-compose.yml file):
 * **Host:** `localhost`
 * **Port:** `5432`
 * **username:** `admin`
 * **password:** `admin`
 
-## Struktur Folder Proyek
+## Project Structure
 ```bash
 .
 ├── app/
@@ -89,10 +88,10 @@ Gunakan database client untuk memvalidasi data yang sudah masuk ke database deng
 ```
 
 ## 📝 Fitur & Implementasi
-Automated Table Creation: Tabel database otomatis dibuat saat aplikasi dijalankan melalui Base.metadata.create_all di dalam lifespan event.
+* **Automated Schema Migration**: Database tables are automatically generated upon application startup using Base.metadata.create_all within the FastAPI lifespan event.
 
-Asynchronous Processing: Menggunakan async/await dan HTTPX untuk memastikan performa API tetap optimal saat memanggil eksternal API.
+* **Asynchronous Concurrency**: Leverages async/await and HTTPX to ensure non-blocking I/O operations when fetching data from external APIs.
 
-Data Transformation: Melakukan filter pada effect_entries dari PokeAPI (hanya mengambil bahasa Inggris) sebelum disimpan ke database.
+* **Data Transformation**: Implements server-side filtering on PokeAPI effect_entries to extract only English descriptions before storage.
 
-Containerization: Mengisolasi environment aplikasi dan database sehingga mudah dijalankan di OS mana pun tanpa konflik lokal.
+* **Full Containerization**: Decouples the application and database environments, ensuring seamless deployment across different operating systems without local dependency conflicts.
